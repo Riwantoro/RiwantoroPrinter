@@ -20,3 +20,4 @@ chrome.exe --kiosk-printing --app=http://localhost:5173
 ```
 
 Jika tidak memakai kiosk, `window.print()` tetap berjalan namun dialog print akan muncul.
+# RiwantoroPrinter
