@@ -9,6 +9,7 @@
     "dev:electron": "concurrently -k \"vite\" \"wait-on http://localhost:5173 && electron .\"",
     "electron": "electron .",
     "build": "vite build",
+    "build:electron": "vite build && electron-builder --win --x64",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -22,8 +23,27 @@
     "@vitejs/plugin-react": "^5.0.0",
     "concurrently": "^9.1.2",
     "electron": "^32.2.0",
+    "electron-builder": "^24.13.3",
     "typescript": "~5.8.2",
     "vite": "^6.2.0",
     "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.lamtorro.printer",
+    "productName": "Lamtorro Printer",
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
   }
 }

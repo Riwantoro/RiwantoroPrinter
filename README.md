@@ -18,6 +18,13 @@ Gunakan Electron agar scan langsung mencetak tanpa pop-up dialog.
 1. Jalankan: `npm run dev:electron`
 2. Aplikasi akan terbuka sebagai desktop app, print berjalan silent.
 
+## Build Installer Windows (.exe)
+Build installer sebaiknya dijalankan di Windows.
+
+1. `npm install`
+2. `npm run build:electron`
+3. Hasil installer ada di folder `release`
+
 ## Catatan Printing di Windows
 Browser tidak bisa silent print secara default. Untuk auto print tanpa dialog, jalankan Chrome/Edge dengan opsi kiosk printing:
 
