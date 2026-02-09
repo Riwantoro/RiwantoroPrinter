@@ -157,59 +157,134 @@ const App: React.FC = () => {
   return (
     <div className="app">
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
         :root {
           color-scheme: light;
-          --bg: #f5f3ef;
-          --ink: #151515;
-          --muted: #6b6b6b;
-          --accent: #004bd6;
-          --soft: #ffffff;
+          --bg: #0f121a;
+          --surface: #141a24;
+          --card: #1b2230;
+          --ink: #f5f7ff;
+          --muted: #a7b0c3;
+          --accent: #5b8cff;
+          --accent-strong: #3f6cf1;
+          --success: #2bd67b;
+          --border: rgba(255, 255, 255, 0.08);
         }
 
         * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--ink); }
+        body {
+          margin: 0;
+          font-family: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+          background: radial-gradient(1200px 600px at 20% -10%, rgba(91, 140, 255, 0.25), transparent 60%),
+                      radial-gradient(900px 500px at 100% 0%, rgba(43, 214, 123, 0.18), transparent 60%),
+                      var(--bg);
+          color: var(--ink);
+        }
         .app { min-height: 100vh; display: flex; flex-direction: column; }
-        header { padding: 28px 24px 16px; }
-        header h1 { margin: 0; font-size: 28px; letter-spacing: 0.4px; }
-        header p { margin: 6px 0 0; color: var(--muted); }
+        header { padding: 32px 24px 8px; }
+        header h1 { margin: 0; font-size: 30px; letter-spacing: 0.6px; }
+        header p { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
 
-        main { flex: 1; padding: 0 24px 32px; display: grid; gap: 20px; grid-template-columns: 1.1fr 0.9fr; }
+        main {
+          flex: 1;
+          padding: 0 24px 36px;
+          display: grid;
+          gap: 20px;
+          grid-template-columns: 1.1fr 0.9fr;
+        }
         @media (max-width: 900px) {
           main { grid-template-columns: 1fr; }
         }
 
-        .card { background: var(--soft); border-radius: 18px; padding: 20px; box-shadow: 0 12px 28px rgba(0,0,0,0.08); }
-        .card h2 { margin: 0 0 12px; font-size: 18px; }
-        .status { display: grid; gap: 10px; }
-        .status-row { display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
-        .badge { padding: 6px 10px; background: #e6ecff; color: #1339a8; border-radius: 999px; font-weight: 600; }
-        .queue { font-size: 48px; font-weight: 700; letter-spacing: 2px; }
+        .card {
+          background: var(--card);
+          border-radius: 20px;
+          padding: 20px;
+          border: 1px solid var(--border);
+          box-shadow: 0 16px 40px rgba(5, 9, 21, 0.55);
+          backdrop-filter: blur(6px);
+        }
+        .card h2 { margin: 0 0 12px; font-size: 18px; letter-spacing: 0.3px; }
+        .status { display: grid; gap: 12px; }
+        .status-row { display: flex; align-items: center; justify-content: space-between; font-size: 14px; color: var(--muted); }
+        .badge {
+          padding: 6px 12px;
+          background: rgba(91, 140, 255, 0.18);
+          color: #cfe0ff;
+          border-radius: 999px;
+          font-weight: 600;
+          border: 1px solid rgba(91, 140, 255, 0.3);
+        }
+        .queue { font-size: 52px; font-weight: 700; letter-spacing: 4px; color: var(--ink); }
         .muted { color: var(--muted); font-size: 13px; }
 
         .controls { display: grid; gap: 12px; }
         .input { display: grid; gap: 6px; }
-        input[type="text"] { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #d7d7d7; font-size: 14px; }
-        button { border: none; border-radius: 10px; padding: 10px 14px; background: var(--accent); color: white; font-weight: 600; cursor: pointer; }
-        button.secondary { background: #e9e9e9; color: #1c1c1c; }
-        button.outline { background: transparent; border: 1px solid #d7d7d7; color: #1c1c1c; }
-        .toggle { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+        input[type="text"] {
+          width: 100%;
+          padding: 12px 14px;
+          border-radius: 12px;
+          border: 1px solid var(--border);
+          font-size: 14px;
+          background: rgba(255, 255, 255, 0.04);
+          color: var(--ink);
+        }
+        button {
+          border: none;
+          border-radius: 12px;
+          padding: 12px 16px;
+          background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+          color: white;
+          font-weight: 600;
+          cursor: pointer;
+          box-shadow: 0 10px 24px rgba(63, 108, 241, 0.35);
+        }
+        button.secondary {
+          background: rgba(255, 255, 255, 0.08);
+          color: var(--ink);
+          box-shadow: none;
+          border: 1px solid var(--border);
+        }
+        button.outline {
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          color: var(--ink);
+          box-shadow: none;
+        }
+        .toggle { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
 
-        .print-preview { display: grid; place-items: center; min-height: 300px; border: 1px dashed #c7c7c7; border-radius: 16px; padding: 16px; }
+        .print-preview {
+          display: grid;
+          place-items: center;
+          min-height: 300px;
+          border: 1px dashed rgba(255, 255, 255, 0.2);
+          border-radius: 18px;
+          padding: 16px;
+          background: rgba(9, 12, 20, 0.6);
+        }
 
         .ticket {
-          width: 100%; max-width: 420px; background: white; border: 1px solid #111; padding: 24px; text-align: center;
+          width: 100%;
+          max-width: 420px;
+          background: white;
+          border: 1px solid #111;
+          padding: 24px;
+          text-align: center;
+          color: #111;
+          box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
         }
         .ticket h3 { margin: 0 0 6px; font-size: 18px; letter-spacing: 1px; }
         .ticket .number { font-size: 64px; font-weight: 700; margin: 12px 0; }
         .ticket .meta { font-size: 14px; }
 
         @media print {
-          body { background: white; }
+          body { background: white; color: black; }
           header, .controls-card, .help-card { display: none !important; }
           main { grid-template-columns: 1fr; padding: 0; }
           .print-card { box-shadow: none; border-radius: 0; }
-          .print-preview { border: none; min-height: auto; }
-          .ticket { border: 1px solid #111; width: 100%; max-width: none; }
+          .print-preview { border: none; min-height: auto; background: white; }
+          .ticket { border: 1px solid #111; width: 100%; max-width: none; box-shadow: none; }
         }
 
         @page { size: A4; margin: 14mm; }
