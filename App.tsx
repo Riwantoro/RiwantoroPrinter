@@ -1,5 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+declare global {
+  interface Window {
+    electronAPI?: {
+      printTicket: () => Promise<void>;
+    };
+  }
+}
+
 type QueueState = {
   date: string;
   lastNumber: number;
@@ -72,7 +80,16 @@ const App: React.FC = () => {
     document.title = 'Lamtorro Printer';
   }, []);
 
-  const triggerPrint = () => {
+  const triggerPrint = async () => {
+    if (window.electronAPI?.printTicket) {
+      try {
+        await window.electronAPI.printTicket();
+        return;
+      } catch (error) {
+        console.error('Print gagal, fallback ke dialog browser.', error);
+      }
+    }
+
     // Ensure state has rendered before printing.
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
@@ -354,7 +371,7 @@ const App: React.FC = () => {
             Auto print sudah dipaksa aktif setiap scan.
           </p>
           <p className="muted">
-            Untuk cetak tanpa dialog (langsung keluar kertas), jalankan Chrome/Edge dengan opsi kiosk printing:
+            Untuk tanpa dialog, gunakan versi Electron (print silent). Jika tetap di browser, jalankan Chrome/Edge dengan opsi kiosk:
           </p>
           <p className="muted">
             <strong>chrome.exe --kiosk-printing --app=http://localhost:5173</strong>

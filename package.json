@@ -1,10 +1,13 @@
 {
-  "name": "kero-care:-sithem-assistant",
+  "name": "lamtorro-printer",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite",
+    "dev:electron": "concurrently -k \"vite\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron": "electron .",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -17,7 +20,10 @@
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.1.2",
+    "electron": "^32.2.0",
     "typescript": "~5.8.2",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "wait-on": "^8.0.1"
   }
 }
