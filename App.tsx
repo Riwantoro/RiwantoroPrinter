@@ -69,6 +69,15 @@ const App: React.FC = () => {
     saveQueueState(queueState);
   }, [queueState]);
 
+  const triggerPrint = () => {
+    // Ensure state has rendered before printing.
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        window.print();
+      });
+    });
+  };
+
   const issueTicket = useCallback(
     (barcode: string) => {
       const now = new Date();
@@ -80,7 +89,7 @@ const App: React.FC = () => {
       setLastScan(barcode);
 
       if (autoPrint) {
-        window.setTimeout(() => window.print(), 120);
+        triggerPrint();
       }
     },
     [autoPrint, queueState.lastNumber]
@@ -253,7 +262,7 @@ const App: React.FC = () => {
             </div>
 
             <button type="button" onClick={handleManualSubmit}>Print Manual</button>
-            <button type="button" className="outline" onClick={() => ticket && window.print()}>Print Ulang</button>
+            <button type="button" className="outline" onClick={() => ticket && triggerPrint()}>Print Ulang</button>
             <button type="button" className="secondary" onClick={handleResetQueue}>Reset Nomor Hari Ini</button>
           </div>
         </section>
@@ -275,7 +284,7 @@ const App: React.FC = () => {
           <h2>Catatan</h2>
           <p className="muted">
             Scanner barcode USB biasanya terbaca seperti keyboard dan mengirim Enter di akhir input.
-            Jika ingin print tanpa dialog, jalankan Chrome/Edge dengan opsi kiosk printing.
+            Jika ingin print tanpa dialog (langsung keluar kertas), jalankan Chrome/Edge dengan opsi kiosk printing.
           </p>
           <p className="muted">
             Nomor antrian akan reset otomatis setiap pergantian tanggal lokal.
