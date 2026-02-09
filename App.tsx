@@ -69,6 +69,10 @@ const App: React.FC = () => {
     saveQueueState(queueState);
   }, [queueState]);
 
+  useEffect(() => {
+    document.title = 'Lamtorro Printer';
+  }, []);
+
   const triggerPrint = () => {
     // Ensure state has rendered before printing.
     window.requestAnimationFrame(() => {
@@ -291,7 +295,7 @@ const App: React.FC = () => {
       `}</style>
 
       <header>
-        <h1>Queue Printer</h1>
+        <h1>Lamtorro Printer</h1>
         <p>Scan barcode untuk cetak nomor antrian otomatis (format 001) dengan tanggal dan jam.</p>
       </header>
 
