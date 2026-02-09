@@ -53,7 +53,6 @@ const App: React.FC = () => {
   const [queueState, setQueueState] = useState<QueueState>(() => loadQueueState());
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [lastScan, setLastScan] = useState('');
-  const [autoPrint, setAutoPrint] = useState(true);
   const [manualCode, setManualCode] = useState('');
 
   const scanBufferRef = useRef('');
@@ -92,11 +91,9 @@ const App: React.FC = () => {
       setTicket({ number: padded, issuedAt: now, barcode });
       setLastScan(barcode);
 
-      if (autoPrint) {
-        triggerPrint();
-      }
+      triggerPrint();
     },
-    [autoPrint, queueState.lastNumber]
+    [queueState.lastNumber]
   );
 
   const finalizeScan = useCallback(() => {
@@ -318,15 +315,6 @@ const App: React.FC = () => {
           </div>
 
           <div className="controls" style={{ marginTop: 18 }}>
-            <label className="toggle">
-              <input
-                type="checkbox"
-                checked={autoPrint}
-                onChange={(event) => setAutoPrint(event.target.checked)}
-              />
-              Auto print setelah scan
-            </label>
-
             <div className="input">
               <span className="muted">Tes manual (ketik barcode lalu Enter)</span>
               <input
@@ -363,7 +351,13 @@ const App: React.FC = () => {
           <h2>Catatan</h2>
           <p className="muted">
             Scanner barcode USB biasanya terbaca seperti keyboard dan mengirim Enter di akhir input.
-            Jika ingin print tanpa dialog (langsung keluar kertas), jalankan Chrome/Edge dengan opsi kiosk printing.
+            Auto print sudah dipaksa aktif setiap scan.
+          </p>
+          <p className="muted">
+            Untuk cetak tanpa dialog (langsung keluar kertas), jalankan Chrome/Edge dengan opsi kiosk printing:
+          </p>
+          <p className="muted">
+            <strong>chrome.exe --kiosk-printing --app=http://localhost:5173</strong>
           </p>
           <p className="muted">
             Nomor antrian akan reset otomatis setiap pergantian tanggal lokal.
